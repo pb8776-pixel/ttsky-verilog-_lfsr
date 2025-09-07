@@ -6,9 +6,14 @@
 `default_nettype none
 
 module tt_um_sierpinski_lfsr (
-    input  wire clk,       // system clock
-    input  wire rst_n,     // active-low reset
-    output reg  [7:0] lfsr_out // 8-bit LFSR state (row of triangle)
+    input  wire clk,         // system clock
+    input  wire rst_n,       // active-low reset
+    input  wire ena,         // enable signal from Tiny Tapeout
+    input  wire [7:0] ui_in, // unused in this design
+    output wire [7:0] uo_out,// map LFSR output here
+    input  wire [7:0] uio_in,// unused
+    output wire [7:0] uio_out, // unused
+    output wire [7:0] uio_oe   // unused
 );
 
     reg [7:0] lfsr;
@@ -18,14 +23,15 @@ module tt_um_sierpinski_lfsr (
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n)
-            lfsr <= 8'b0000_0001;  // seed value (start with single '1')
-        else
+            lfsr <= 8'b0000_0001;  // seed value
+        else if (ena)              // only update when enabled
             lfsr <= {lfsr[6:0], feedback};
     end
 
-    // Assign LFSR state to output
-    always @(*) begin
-        lfsr_out = lfsr;
-    end
+    // Drive outputs
+    assign uo_out  = lfsr;        // Send triangle row pattern out
+    assign uio_out = 8'b0;        // not used
+    assign uio_oe  = 8'b0;        // not used
 
 endmodule
+
