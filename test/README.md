@@ -1,37 +1,36 @@
-# Sample testbench for a Tiny Tapeout project
+# 8 Bit LFSR  
 
-This is a sample testbench for a Tiny Tapeout project. It uses [cocotb](https://docs.cocotb.org/en/stable/) to drive the DUT and check the outputs.
-See below to get started or for more information, check the [website](https://tinytapeout.com/hdl/testing/).
+# 8-bit Linear Feedback Shift Register (LFSR)
 
-## Setting up
+## 📌 Overview
+This project implements an **8-bit Linear Feedback Shift Register (LFSR)** in Verilog.  
+An LFSR is a shift register where the input bit is a linear function (XOR) of selected previous bits (taps). It is widely used for:
+- Pseudo-Random Number Generation (PRNG)
+- Built-In Self Test (BIST) pattern generation
+- Data scrambling in communication systems
+- Spread-spectrum sequence generation
 
-1. Edit [Makefile](Makefile) and modify `PROJECT_SOURCES` to point to your Verilog files.
-2. Edit [tb.v](tb.v) and replace `tt_um_example` with your module name.
+The design is written in Verilog, tested with a simple testbench, and can be simulated using **Icarus Verilog** and **GTKWave**.
 
-## How to run
+---
 
-To run the RTL simulation:
+## ⚙️ Features
+- 8-bit LFSR with maximal-length sequence
+- Uses a **primitive polynomial** for taps
+- Deterministic and repeatable pseudo-random sequence
+- Supports reset with non-zero seed
+- Synthesis-friendly RTL code
 
-```sh
-make -B
-```
+---
 
-To run gatelevel simulation, first harden your project and copy `../runs/wokwi/results/final/verilog/gl/{your_module_name}.v` to `gate_level_netlist.v`.
+## 🔑 Polynomial Used
+The implemented 8-bit LFSR uses the primitive polynomial:
 
-Then run:
+\[
+P(x) = x^8 + x^6 + x^5 + x^4 + 1
+\]
 
-```sh
-make -B GATES=yes
-```
+Which corresponds to taps at bits **[7, 5, 4, 3]** (0-based indexing).
 
-## How to view the VCD file
+This polynomial ensures a **maximum-length sequence** of \(2^8 - 1 = 255\) unique states before repeating.
 
-Using GTKWave
-```sh
-gtkwave tb.vcd tb.gtkw
-```
-
-Using Surfer
-```sh
-surfer tb.vcd
-```
