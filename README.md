@@ -1,37 +1,40 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
-# Tiny Tapeout Verilog Project Template
+# 8-bit Linear Feedback Shift Register (LFSR)
 
-- [Read the documentation for project](docs/info.md)
 
-## What is Tiny Tapeout?
+## 📌 Overview
+This project implements an **8-bit Linear Feedback Shift Register (LFSR)** in Verilog.  
+An LFSR is a shift register where the input bit is a linear function (XOR) of selected previous bits (taps). It is widely used for:
+- Pseudo-Random Number Generation (PRNG)
+- Built-In Self Test (BIST) pattern generation
+- Data scrambling in communication systems
+- Spread-spectrum sequence generation
 
-Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
+The design is written in Verilog, tested with a simple testbench, and can be simulated using **Icarus Verilog** and **GTKWave**.
 
-To learn more and get started, visit https://tinytapeout.com.
+---
 
-## Set up your Verilog project
+## ⚙️ Features
+- 8-bit LFSR with maximal-length sequence
+- Uses a **primitive polynomial** for taps
+- Deterministic and repeatable pseudo-random sequence
+- Supports reset with non-zero seed
+- Synthesis-friendly RTL code
 
-1. Add your Verilog files to the `src` folder.
-2. Edit the [info.yaml](info.yaml) and update information about your project, paying special attention to the `source_files` and `top_module` properties. If you are upgrading an existing Tiny Tapeout project, check out our [online info.yaml migration tool](https://tinytapeout.github.io/tt-yaml-upgrade-tool/).
-3. Edit [docs/info.md](docs/info.md) and add a description of your project.
-4. Adapt the testbench to your design. See [test/README.md](test/README.md) for more information.
+---
 
-The GitHub action will automatically build the ASIC files using [OpenLane](https://www.zerotoasiccourse.com/terminology/openlane/).
+## 🔑 Polynomial Used
+The implemented 8-bit LFSR uses the primitive polynomial:
 
-## Enable GitHub actions to build the results page
+\[
+P(x) = x^8 + x^6 + x^5 + x^4 + 1
+\]
 
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
+Which corresponds to taps at bits **[7, 5, 4, 3]** (0-based indexing).
 
-## Resources
+This polynomial ensures a **maximum-length sequence** of \(2^8 - 1 = 255\) unique states before repeating.
 
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://tinytapeout.com/discord)
-- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
-
-## What next?
 
 - [Submit your design to the next shuttle](https://app.tinytapeout.com/).
 - Edit [this README](README.md) and explain your design, how it works, and how to test it.
